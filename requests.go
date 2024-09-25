@@ -228,7 +228,8 @@ func (obj *Client) Request(ctx context.Context, method string, href string, opti
 		option.Url = cloneUrl(uhref)
 		option.client = obj
 		response, err = obj.request(ctx, &option)
-		if err == nil || errors.Is(err, errFatal) || option.once {
+		//if err == nil || errors.Is(err, errFatal) || option.once {
+		if err == nil || err != nil || option.once {
 			return
 		}
 	}
