@@ -373,7 +373,8 @@ func (obj *Client) request(ctx context.Context, option *RequestOption) (response
 	response.response, err = obj.do(reqs, option)
 	response.isNewConn = ctxData.isNewConn
 	if err != nil {
-		err = tools.WrapError(err, "client do error")
+		err = errors.New("client do error")
+		//err = tools.WrapError(err, "client do error")
 		return
 	}
 	if response.response == nil {
