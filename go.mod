@@ -1,4 +1,4 @@
-module github.com/gospider007/requests
+module github.com/git-saas18/requests
 
 go 1.23.0
 
