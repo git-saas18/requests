@@ -130,6 +130,10 @@ func (obj *connecotr) http2Req(task *reqTask) {
 	task.cnl()
 }
 func (obj *connecotr) waitBodyClose() error {
+	if obj.bodyCtx == nil || obj.deleteCtx == nil {
+		return errors.New("context is nil")
+	}
+
 	select {
 	case <-obj.bodyCtx.Done(): //wait body close
 		if err := context.Cause(obj.bodyCtx); errors.Is(err, ErrgospiderBodyClose) {
