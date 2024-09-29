@@ -134,6 +134,9 @@ func (obj *connecotr) waitBodyClose() error {
 	select {
 	case <-obj.bodyCtx.Done(): //wait body close
 		err := context.Cause(obj.bodyCtx)
+		if err == nil {
+			return nil
+		}
 		if errors.Is(err, ErrgospiderBodyClose) {
 			return nil
 		} else {
