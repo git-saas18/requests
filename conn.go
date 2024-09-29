@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"context"
 	"errors"
+	"fmt"
 	"io"
 	"net"
 	"net/http"
@@ -130,19 +131,21 @@ func (obj *connecotr) http2Req(task *reqTask) {
 	task.cnl()
 }
 func (obj *connecotr) waitBodyClose() error {
-	if obj.bodyCtx == nil || obj.deleteCtx == nil {
-		return errors.New("context is nil")
-	}
-
 	select {
 	case <-obj.bodyCtx.Done(): //wait body close
-		if err := context.Cause(obj.bodyCtx); errors.Is(err, ErrgospiderBodyClose) {
+		err := context.Cause(obj.bodyCtx)
+		if errors.Is(err, ErrgospiderBodyClose) {
 			return nil
 		} else {
 			return err
 		}
 	case <-obj.deleteCtx.Done(): //force conn close
-		return tools.WrapError(context.Cause(obj.deleteCtx), "delete ctx error: ")
+		err := context.Cause(obj.deleteCtx)
+		if err != nil {
+			return errors.New(fmt.Sprintf("delete ctx error: %v", err))
+		}
+
+		return err
 	}
 }
 
