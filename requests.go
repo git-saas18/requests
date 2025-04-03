@@ -326,13 +326,13 @@ func (obj *Client) request(ctx context.Context, option *RequestOption) (response
 	}
 	reqs.Header = headers
 	//add Referer
-	if reqs.Header.Get("Referer") == "" {
-		if option.Referer != "" {
-			reqs.Header.Set("Referer", option.Referer)
-		} else if reqs.URL.Scheme != "" && reqs.URL.Host != "" {
-			reqs.Header.Set("Referer", fmt.Sprintf("%s://%s", reqs.URL.Scheme, reqs.URL.Host))
-		}
-	}
+	//if reqs.Header.Get("Referer") == "" {
+	//	if option.Referer != "" {
+	//		reqs.Header.Set("Referer", option.Referer)
+	//	} else if reqs.URL.Scheme != "" && reqs.URL.Host != "" {
+	//		reqs.Header.Set("Referer", fmt.Sprintf("%s://%s", reqs.URL.Scheme, reqs.URL.Host))
+	//	}
+	//}
 
 	//set ContentType
 	if option.ContentType != "" && reqs.Header.Get("Content-Type") == "" {
